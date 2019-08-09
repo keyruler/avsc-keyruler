@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - 'node'
+  - '10'
+  - '9'
+  - '8'
+  - '7'
+matrix:
+  include:
+    - node_js: node
+
+jobs:
+  include:
+    - stage: NPM audit
+      script: npm audit
+      node_js: node
+
+stages:
+  - NPM audit
+  - test
