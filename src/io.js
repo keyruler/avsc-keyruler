@@ -36,8 +36,8 @@ const _valid = {
     return utils.isObject(d) && s.fields.map(f => validate(f.type, d[f.name], o)).every(f => f) && Object.keys(d).every(k => fieldNames.includes(k))
   }
 }
-_valid['error_union'] = _valid['union']
-_valid['error'] = _valid['request'] = _valid['record']
+_valid.error_union = _valid.union
+_valid.error = _valid.request = _valid.record
 
 /**
  * Determines if a python datum is an instance of a schema.
@@ -168,7 +168,7 @@ class DatumReader {
           return this.readData(writersSchema, s, tap)
         }
       }
-      return Promise.reject(createSchemaResolutionError(`Schemas do not match.`, writersSchema, readersSchema))
+      return Promise.reject(createSchemaResolutionError('Schemas do not match.', writersSchema, readersSchema))
     }
 
     let datum
@@ -545,24 +545,26 @@ class DatumReader {
       case 'fixed':
       case 'bytes':
         return Buffer.from(defaultValue)
-      case 'array':
+      case 'array': {
         const readArray = []
         for (const jsonVal of defaultValue) {
           const itemVal = await this.readDefaultValue(fieldSchema.items, jsonVal)
           readArray.push(itemVal)
         }
         return readArray
-      case 'map':
+      }
+      case 'map': {
         const readMap = {}
         for (const [key, jsonVal] of Object.entries(defaultValue)) {
           const mapVal = await this.readDefaultValue(fieldSchema.values, jsonVal)
           readMap[key] = mapVal
         }
         return readMap
+      }
       case 'union':
       case 'error_union':
         return this.readDefaultValue(fieldSchema.schemas[0], defaultValue)
-      case 'record':
+      case 'record': {
         const readRecord = {}
         for (const field of fieldSchema.fields) {
           let jsonVal = defaultValue[field.name]
@@ -573,6 +575,7 @@ class DatumReader {
           readRecord[field.name] = fieldVal
         }
         return readRecord
+      }
       default:
         throw new Error(`Unknown type: ${fieldSchema.type}`)
     }

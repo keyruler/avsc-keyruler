@@ -217,14 +217,14 @@ class Names {
       // he has no namespace - no change
       return properties
     }
-    if (properties['namespace'] !== this.defaultNamespace) {
+    if (properties.namespace !== this.defaultNamespace) {
       // we're different - leave his stuff alone
       return properties
     }
 
     // we each have a namespace and it's redundant. delete his.
     const prunable = Object.assign({}, properties)
-    delete prunable['namespace']
+    delete prunable.namespace
     return prunable
   }
 
@@ -455,7 +455,7 @@ class Field {
     }
 
     const toDump = Object.assign({}, this.props)
-    toDump['type'] = this.type.toJson(names)
+    toDump.type = this.type.toJson(names)
     return toDump
   }
 
@@ -684,7 +684,7 @@ class RecordSchema extends NamedSchema {
     }
 
     const toDump = names.pruneNamespace(Object.assign({}, this.props))
-    toDump['fields'] = this.fields.map(f => f.toJson(names))
+    toDump.fields = this.fields.map(f => f.toJson(names))
     return toDump
   }
 
@@ -790,7 +790,7 @@ class ArraySchema extends Schema {
 
     const toDump = Object.assign({}, this.props)
     const itemsSchema = this.getProp('items')
-    toDump['items'] = itemsSchema.toJson(names)
+    toDump.items = itemsSchema.toJson(names)
     return toDump
   }
 
@@ -831,7 +831,7 @@ class MapSchema extends Schema {
     }
 
     const toDump = Object.assign({}, this.props)
-    toDump['values'] = this.getProp('values').toJson(names)
+    toDump.values = this.getProp('values').toJson(names)
     return toDump
   }
 
