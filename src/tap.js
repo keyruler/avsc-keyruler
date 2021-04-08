@@ -90,6 +90,7 @@ Tap.prototype.readInt = Tap.prototype.readLong = function () {
 
 Tap.prototype.skipInt = Tap.prototype.skipLong = function () {
   var buf = this.buf
+  // eslint-disable-next-line no-empty
   while (buf[this.pos++] & 0x80) { }
 }
 
@@ -421,6 +422,7 @@ Tap.prototype.packLongBytes = function (buf) {
   // Not reading more than 24 bits because we need to be able to combine the
   // "carry" bits from the previous part and JavaScript only supports bitwise
   // operations on 32 bit integers.
+  // eslint-disable-next-line no-empty
   while (m && !parts[--m]) { } // Skip trailing 0s.
 
   // Leading parts (if any), we never bail early here since we need the

@@ -11,6 +11,7 @@ const INT_MIN_VALUE = -((1 << 31) >>> 0)
 const INT_MAX_VALUE = ((1 << 31) >>> 0) - 1
 // Can't do this bitwise
 const LONG_MIN_VALUE = -9223372036854775808
+// eslint-disable-next-line no-loss-of-precision
 const LONG_MAX_VALUE = 9223372036854775807
 
 const _valid = {
